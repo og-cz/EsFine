@@ -1,5 +1,8 @@
 package com.example.espin.ui.components
 
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,10 +33,6 @@ import com.example.espin.ui.theme.HoverLightGreen
 import com.example.espin.ui.theme.TextCharcoal
 import com.example.espin.ui.theme.TextMuted
 
-/**
- * Mood button component matching the button structure from MoodScanner.tsx
- * Matches: className="flex flex-col p-4 bg-white border border-[#E0E0E0] rounded-2xl..."
- */
 @Composable
 fun MoodButton(
     label: String,
@@ -42,48 +41,53 @@ fun MoodButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // 1. Create the interaction source
+    val interactionSource = remember { MutableInteractionSource() }
+
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight() // Allow it to fit the icon + text
+            .wrapContentHeight()
             .clip(RoundedCornerShape(16.dp))
             .background(CardWhite)
             .border(
                 border = BorderStroke(1.dp, BorderMuted),
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable(onClick = onClick)
+            // 2. Updated clickable block to support the new Ripple system
+            .clickable(
+                interactionSource = interactionSource,
+                indication = rememberRipple(),
+                onClick = onClick
+            )
             .padding(16.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Icon container: w-10 h-10 -> 40dp
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .clip(RoundedCornerShape(12.dp)) // rounded-xl
-                    .background(Color(0xFFF5F5F5)), // bg-[#F5F5F5]
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFFF5F5F5)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = label,
-                    modifier = Modifier.size(20.dp), // size={20}
+                    modifier = Modifier.size(20.dp),
                     tint = TextCharcoal
                 )
             }
-            
-            // Label: font-bold text-sm -> 14sp bold
+
             Text(
                 text = label,
                 style = EspinTypography.bodyMedium,
                 color = TextCharcoal,
-                modifier = Modifier.padding(top = 12.dp) // mb-3 equivalent
+                modifier = Modifier.padding(top = 12.dp)
             )
-            
-            // Description: text-[10px] -> 10sp
+
             Text(
                 text = description,
                 style = EspinTypography.labelSmall,
