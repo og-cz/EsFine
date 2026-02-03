@@ -1,5 +1,8 @@
 package com.example.espin.ui.screens
 
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -129,16 +132,24 @@ fun SystemSettingsScreen(
 
 @Composable
 private fun SettingRow(setting: SettingRowData) {
+    // 1. Create the interaction source
+    val interactionSource = remember { MutableInteractionSource() }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = {})
-            .padding(16.dp) // p-4
+            .clickable(
+                // 2. Use the new ripple here
+                indication = rememberRipple(),
+                interactionSource = interactionSource,
+                onClick = {}
+            )
+            .padding(16.dp)
             .then(
                 if (!setting.isLast) {
                     Modifier.border(
                         width = 1.dp,
-                        color = Color(0xFFF0F0F0), // border-[#F0F0F0]
+                        color = Color(0xFFF0F0F0),
                         shape = RoundedCornerShape(0.dp)
                     )
                 } else {

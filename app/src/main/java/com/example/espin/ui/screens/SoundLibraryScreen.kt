@@ -1,5 +1,8 @@
 package com.example.espin.ui.screens
 
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -61,54 +64,52 @@ fun SoundLibraryScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 32.dp) // px-6 pt-8 pb-20
+            .padding(horizontal = 24.dp, vertical = 32.dp)
     ) {
-        // Header
         Text(
             text = "SONIC\nARCHITECTURES",
-            style = EspinTypography.titleLarge, // text-2xl
+            style = EspinTypography.titleLarge,
             color = TextCharcoal,
             fontWeight = FontWeight.Light,
-            modifier = Modifier.padding(bottom = 24.dp) // mb-6
+            modifier = Modifier.padding(bottom = 24.dp)
         )
-        
-        // Featured Card
+
+        // Featured Card logic...
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(192.dp) // h-48
-                .clip(RoundedCornerShape(16.dp)) // rounded-2xl
-                .background(TextCharcoal) // bg-[#333333]
-                .padding(24.dp) // p-6
-                .padding(bottom = 32.dp) // mb-8
+                .height(192.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(TextCharcoal)
+                .padding(24.dp)
+                .padding(bottom = 32.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
             ) {
                 Column {
-                    // Recommended badge
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(4.dp))
-                            .background(AccentSage) // bg-[#87A96B]
-                            .padding(horizontal = 8.dp, vertical = 4.dp) // px-2 py-1
-                            .padding(bottom = 8.dp) // mb-2
+                            .background(AccentSage)
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .padding(bottom = 8.dp)
                     ) {
                         Text(
                             text = "RECOMMENDED",
-                            style = EspinTypography.labelSmall.copy(fontSize = 9.sp), // text-[9px]
+                            style = EspinTypography.labelSmall.copy(fontSize = 9.sp),
                             color = CardWhite
                         )
                     }
                     Text(
                         text = "Deep Work\nProtocol",
-                        style = EspinTypography.titleMedium, // text-xl
+                        style = EspinTypography.titleMedium,
                         color = CardWhite,
                         fontWeight = FontWeight.Light
                     )
                 }
-                
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween,
@@ -116,12 +117,12 @@ fun SoundLibraryScreen(
                 ) {
                     Text(
                         text = "40HZ • BINAURAL",
-                        style = EspinTypography.bodySmall, // text-xs
+                        style = EspinTypography.bodySmall,
                         color = TextMuted
                     )
                     Box(
                         modifier = Modifier
-                            .size(40.dp) // w-10 h-10
+                            .size(40.dp)
                             .clip(CircleShape)
                             .background(CardWhite),
                         contentAlignment = Alignment.Center
@@ -136,67 +137,40 @@ fun SoundLibraryScreen(
                 }
             }
         }
-        
-        Spacer(modifier = Modifier.height(24.dp)) // space-y-6
-        
-        // Categories
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Column(
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(24.dp) // space-y-6
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(24.dp)
         ) {
-            // Section: LOFI LAYERS
             SectionHeader(title = "LOFI LAYERS")
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp), // gap-4
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
                 verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp)
             ) {
                 items(
                     listOf(
-                        SoundCard(
-                            title = "Night Rain",
-                            tag = "TEXTURE",
-                            icon = Icons.Default.WaterDrop, // CloudRain equivalent
-                            backgroundColor = BackgroundSecondary // bg-[#E0E0E0]
-                        ),
-                        SoundCard(
-                            title = "Vinyl Crackle",
-                            tag = "ASMR",
-                            icon = Icons.Default.MusicNote, // Music
-                            backgroundColor = Color(0xFFE8E8E8) // bg-[#E8E8E8]
-                        )
+                        SoundCard("Night Rain", "TEXTURE", Icons.Default.WaterDrop, BackgroundSecondary),
+                        SoundCard("Vinyl Crackle", "ASMR", Icons.Default.MusicNote, Color(0xFFE8E8E8))
                     )
-                ) { card ->
-                    SoundCardItem(card = card)
-                }
+                ) { card -> SoundCardItem(card = card) }
             }
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
-            // Section: NEURAL FREQUENCIES
+
             SectionHeader(title = "NEURAL FREQUENCIES")
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp), // gap-4
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
                 verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp)
             ) {
                 items(
                     listOf(
-                        SoundCard(
-                            title = "Brown Noise",
-                            tag = "QUIET",
-                            icon = Icons.Default.Headphones,
-                            backgroundColor = Color(0xFFD6D6D6) // bg-[#D6D6D6]
-                        ),
-                        SoundCard(
-                            title = "Theta Waves",
-                            tag = "CALM",
-                            icon = Icons.Default.Bolt, // Zap
-                            backgroundColor = Color(0xFFCCCCCC) // bg-[#CCCCCC]
-                        )
+                        SoundCard("Brown Noise", "QUIET", Icons.Default.Headphones, Color(0xFFD6D6D6)),
+                        SoundCard("Theta Waves", "CALM", Icons.Default.Bolt, Color(0xFFCCCCCC))
                     )
-                ) { card ->
-                    SoundCardItem(card = card)
-                }
+                ) { card -> SoundCardItem(card = card) }
             }
         }
     }
@@ -204,43 +178,36 @@ fun SoundLibraryScreen(
 
 @Composable
 private fun SectionHeader(title: String) {
+    // ... (Keep the SectionHeader code the same)
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .size(8.dp) // w-2 h-2
-                .clip(CircleShape)
-                .background(TextCharcoal)
-        )
-        Spacer(modifier = Modifier.width(12.dp)) // gap-3
-        Text(
-            text = title,
-            style = EspinTypography.bodySmall, // text-xs
-            color = TextCharcoal,
-            fontWeight = FontWeight.Bold
-        )
+        Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(TextCharcoal))
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(text = title, style = EspinTypography.bodySmall, color = TextCharcoal, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.weight(1f))
-        Box(
-            modifier = Modifier
-                .height(1.dp) // h-[1px]
-                .width(1.dp)
-                .background(BackgroundSecondary) // bg-[#E0E0E0]
-        )
+        Box(modifier = Modifier.height(1.dp).width(1.dp).background(BackgroundSecondary))
     }
 }
 
 @Composable
 private fun SoundCardItem(card: SoundCard) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp.coerceAtLeast(100.dp)) // min-h-[100px]
-            .clip(RoundedCornerShape(12.dp)) // rounded-xl
+            .height(100.dp.coerceAtLeast(100.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(card.backgroundColor)
-            .clickable(onClick = {})
-            .padding(16.dp) // p-4
+            .clickable(
+                interactionSource = interactionSource,
+                // CHANGE THIS: from ripple() to rememberRipple()
+                indication = rememberRipple(),
+                onClick = {}
+            )
+            .padding(16.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -261,18 +228,18 @@ private fun SoundCardItem(card: SoundCard) {
                     modifier = Modifier
                         .clip(RoundedCornerShape(4.dp))
                         .border(1.dp, TextCharcoal.copy(alpha = 0.2f), RoundedCornerShape(4.dp))
-                        .padding(horizontal = 4.dp, vertical = 2.dp) // px-1
+                        .padding(horizontal = 4.dp, vertical = 2.dp)
                 ) {
                     Text(
                         text = card.tag,
-                        style = EspinTypography.labelSmall.copy(fontSize = 9.sp), // text-[9px]
+                        style = EspinTypography.labelSmall.copy(fontSize = 9.sp),
                         color = TextCharcoal
                     )
                 }
             }
             Text(
                 text = card.title,
-                style = EspinTypography.bodyMedium, // text-sm
+                style = EspinTypography.bodyMedium,
                 color = TextCharcoal,
                 fontWeight = FontWeight.Medium
             )
