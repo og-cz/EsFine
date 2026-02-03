@@ -1,4 +1,4 @@
-package com.example.espin.domain.model
+package com.example.esfine.domain.model
 
 /**
  * Represents an audio preset configuration.

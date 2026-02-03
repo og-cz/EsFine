@@ -1,4 +1,4 @@
-package com.example.espin.ui.screens
+package com.example.esfine.ui.screens
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -42,15 +42,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.espin.ui.theme.AccentSage
-import com.example.espin.ui.theme.BackgroundOffWhite
-import com.example.espin.ui.theme.BackgroundSecondary
-import com.example.espin.ui.theme.BorderMuted
-import com.example.espin.ui.theme.CardWhite
-import com.example.espin.ui.theme.EspinTypography
-import com.example.espin.ui.theme.TextCharcoal
-import com.example.espin.ui.theme.TextSecondary
-import com.example.espin.ui.viewmodel.MainViewModel
+import com.example.esfine.ui.theme.AccentSage
+import com.example.esfine.ui.theme.BackgroundOffWhite
+import com.example.esfine.ui.theme.BackgroundSecondary
+import com.example.esfine.ui.theme.BorderMuted
+import com.example.esfine.ui.theme.CardWhite
+import com.example.esfine.ui.theme.EsFineTypography
+import com.example.esfine.ui.theme.TextCharcoal
+import com.example.esfine.ui.theme.TextSecondary
+import com.example.esfine.ui.viewmodel.MainViewModel
 
 data class OnboardingStep(
     val id: Int,
@@ -131,7 +131,7 @@ fun TechnicalOnboardingScreen(
             ) {
                 Text(
                     text = "SYSTEM INITIALIZATION",
-                    style = EspinTypography.titleMedium, // text-xl
+                    style = EsFineTypography.titleMedium, // text-xl
                     color = TextCharcoal
                 )
                 Row(
@@ -152,7 +152,7 @@ fun TechnicalOnboardingScreen(
                     Spacer(modifier = Modifier.width(8.dp)) // gap-2
                     Text(
                         text = "SEQUENCE ${onboardingState.currentStep + 1}/${steps.size}",
-                        style = EspinTypography.bodySmall, // text-xs
+                        style = EsFineTypography.bodySmall, // text-xs
                         color = TextSecondary
                     )
                 }
@@ -199,7 +199,7 @@ fun TechnicalOnboardingScreen(
                         
                         Text(
                             text = currentStep.title,
-                            style = EspinTypography.titleLarge, // text-2xl
+                            style = EsFineTypography.titleLarge, // text-2xl
                             color = TextCharcoal,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 16.dp) // mb-4
@@ -207,7 +207,7 @@ fun TechnicalOnboardingScreen(
                         
                         Text(
                             text = currentStep.description,
-                            style = EspinTypography.bodyMedium,
+                            style = EsFineTypography.bodyMedium,
                             color = TextSecondary,
                             modifier = Modifier.padding(bottom = 24.dp) // mb-6
                         )
@@ -230,7 +230,7 @@ fun TechnicalOnboardingScreen(
                         ) {
                             Text(
                                 text = "> ${currentStep.code}...\n> STATUS: STANDBY",
-                                style = EspinTypography.labelSmall, // text-[10px]
+                                style = EsFineTypography.labelSmall, // text-[10px]
                                 color = TextCharcoal.copy(alpha = 0.7f)
                             )
                         }
@@ -283,7 +283,7 @@ fun TechnicalOnboardingScreen(
                     ) {
                         Text(
                             text = if (onboardingState.currentStep == steps.size - 1) "INITIALIZE" else "NEXT",
-                            style = EspinTypography.bodySmall, // text-xs
+                            style = EsFineTypography.bodySmall, // text-xs
                             color = CardWhite
                         )
                         Box(

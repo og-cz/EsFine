@@ -1,4 +1,4 @@
-package com.example.espin.ui.screens
+package com.example.esfine.ui.screens
 
 import androidx.compose.runtime.remember
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,13 +39,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.espin.ui.theme.AccentSage
-import com.example.espin.ui.theme.BackgroundSecondary
-import com.example.espin.ui.theme.BorderMuted
-import com.example.espin.ui.theme.CardWhite
-import com.example.espin.ui.theme.EspinTypography
-import com.example.espin.ui.theme.TextCharcoal
-import com.example.espin.ui.theme.TextMuted
+import com.example.esfine.ui.theme.AccentSage
+import com.example.esfine.ui.theme.BackgroundSecondary
+import com.example.esfine.ui.theme.BorderMuted
+import com.example.esfine.ui.theme.CardWhite
+import com.example.esfine.ui.theme.EsFineTypography
+import com.example.esfine.ui.theme.TextCharcoal
+import com.example.esfine.ui.theme.TextMuted
 
 data class SoundCard(
     val title: String,
@@ -68,7 +68,7 @@ fun SoundLibraryScreen(
     ) {
         Text(
             text = "SONIC\nARCHITECTURES",
-            style = EspinTypography.titleLarge,
+            style = EsFineTypography.titleLarge,
             color = TextCharcoal,
             fontWeight = FontWeight.Light,
             modifier = Modifier.padding(bottom = 24.dp)
@@ -98,13 +98,13 @@ fun SoundLibraryScreen(
                     ) {
                         Text(
                             text = "RECOMMENDED",
-                            style = EspinTypography.labelSmall.copy(fontSize = 9.sp),
+                            style = EsFineTypography.labelSmall.copy(fontSize = 9.sp),
                             color = CardWhite
                         )
                     }
                     Text(
                         text = "Deep Work\nProtocol",
-                        style = EspinTypography.titleMedium,
+                        style = EsFineTypography.titleMedium,
                         color = CardWhite,
                         fontWeight = FontWeight.Light
                     )
@@ -117,7 +117,7 @@ fun SoundLibraryScreen(
                 ) {
                     Text(
                         text = "40HZ • BINAURAL",
-                        style = EspinTypography.bodySmall,
+                        style = EsFineTypography.bodySmall,
                         color = TextMuted
                     )
                     Box(
@@ -185,7 +185,7 @@ private fun SectionHeader(title: String) {
     ) {
         Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(TextCharcoal))
         Spacer(modifier = Modifier.width(12.dp))
-        Text(text = title, style = EspinTypography.bodySmall, color = TextCharcoal, fontWeight = FontWeight.Bold)
+        Text(text = title, style = EsFineTypography.bodySmall, color = TextCharcoal, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.weight(1f))
         Box(modifier = Modifier.height(1.dp).width(1.dp).background(BackgroundSecondary))
     }
@@ -232,14 +232,14 @@ private fun SoundCardItem(card: SoundCard) {
                 ) {
                     Text(
                         text = card.tag,
-                        style = EspinTypography.labelSmall.copy(fontSize = 9.sp),
+                        style = EsFineTypography.labelSmall.copy(fontSize = 9.sp),
                         color = TextCharcoal
                     )
                 }
             }
             Text(
                 text = card.title,
-                style = EspinTypography.bodyMedium,
+                style = EsFineTypography.bodyMedium,
                 color = TextCharcoal,
                 fontWeight = FontWeight.Medium
             )

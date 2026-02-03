@@ -1,12 +1,12 @@
-package com.example.espin.ui.viewmodel
+package com.example.esfine.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.espin.domain.model.MoodPreset
-import com.example.espin.ui.state.AppTab
-import com.example.espin.ui.state.MainUiState
-import com.example.espin.ui.state.MixerUiState
-import com.example.espin.ui.state.OnboardingUiState
+import com.example.esfine.domain.model.MoodPreset
+import com.example.esfine.ui.state.AppTab
+import com.example.esfine.ui.state.MainUiState
+import com.example.esfine.ui.state.MixerUiState
+import com.example.esfine.ui.state.OnboardingUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.example.espin.ui.theme
+package com.example.esfine.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val EspinLightColorScheme = lightColorScheme(
+private val EsFineLightColorScheme = lightColorScheme(
     primary = AccentSage,
     onPrimary = CardWhite,
     secondary = BackgroundSecondary,
@@ -29,11 +29,11 @@ private val EspinLightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun EspinTheme(
+fun EsFineTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = EspinLightColorScheme
+    val colorScheme = EsFineLightColorScheme
     
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -46,8 +46,8 @@ fun EspinTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = EspinTypography,
-        shapes = EspinShapes,
+        typography = EsFineTypography,
+        shapes = EsFineShapes,
         content = content
     )
 }

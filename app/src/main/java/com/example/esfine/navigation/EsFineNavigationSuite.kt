@@ -1,4 +1,4 @@
-package com.example.espin.navigation
+package com.example.esfine.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +15,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.espin.ui.state.AppTab
-import com.example.espin.ui.viewmodel.MainViewModel
+import com.example.esfine.ui.state.AppTab
+import com.example.esfine.ui.viewmodel.MainViewModel
 
 /**
  * Navigation scaffold with bottom navigation bar.
@@ -24,7 +24,7 @@ import com.example.espin.ui.viewmodel.MainViewModel
  * Note: Using standard bottom navigation for now - can be upgraded to adaptive NavigationSuite later
  */
 @Composable
-fun EspinNavigationSuite(
+fun EsFineNavigationSuite(
     viewModel: MainViewModel,
     content: @Composable (AppTab) -> Unit
 ) {

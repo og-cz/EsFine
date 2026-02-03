@@ -1,4 +1,4 @@
-package com.example.espin.ui.theme
+package com.example.esfine.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -8,13 +8,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Using system monospace font as fallback - can be replaced with custom font file later
-val EspinMono = FontFamily.Monospace
+val EsFineMono = FontFamily.Monospace
 
 // Typography mapping from React classes
 // text-[10px] -> 10.sp
 val LabelSmall = TextStyle(
     fontSize = 10.sp,
-    fontFamily = EspinMono,
+    fontFamily = EsFineMono,
     fontWeight = FontWeight.Bold,
     letterSpacing = 0.5.sp
 )
@@ -22,32 +22,32 @@ val LabelSmall = TextStyle(
 // text-xs -> 12.sp
 val BodySmall = TextStyle(
     fontSize = 12.sp,
-    fontFamily = EspinMono,
+    fontFamily = EsFineMono,
     letterSpacing = 1.sp
 )
 
 // text-sm -> 14.sp
 val BodyMedium = TextStyle(
     fontSize = 14.sp,
-    fontFamily = EspinMono,
+    fontFamily = EsFineMono,
     fontWeight = FontWeight.Bold
 )
 
 // text-xl -> 20.sp
 val TitleMedium = TextStyle(
     fontSize = 20.sp,
-    fontFamily = EspinMono,
+    fontFamily = EsFineMono,
     fontWeight = FontWeight.Bold
 )
 
 // text-2xl -> 24.sp
 val TitleLarge = TextStyle(
     fontSize = 24.sp,
-    fontFamily = EspinMono,
+    fontFamily = EsFineMono,
     fontWeight = FontWeight.Light
 )
 
-val EspinTypography = Typography(
+val EsFineTypography = Typography(
     displayLarge = TitleLarge,
     displayMedium = TitleMedium,
     displaySmall = TitleMedium,

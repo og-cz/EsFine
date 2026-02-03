@@ -1,4 +1,4 @@
-package com.example.espin.ui.state
+package com.example.esfine.ui.state
 
 /**
  * State for the TechnicalOnboarding screen.

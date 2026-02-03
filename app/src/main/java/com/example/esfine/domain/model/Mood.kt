@@ -1,4 +1,4 @@
-package com.example.espin.domain.model
+package com.example.esfine.domain.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

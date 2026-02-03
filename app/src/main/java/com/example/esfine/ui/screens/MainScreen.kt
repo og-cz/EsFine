@@ -1,4 +1,4 @@
-package com.example.espin.ui.screens
+package com.example.esfine.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.example.espin.navigation.EspinNavigationSuite
-import com.example.espin.ui.state.AppTab
-import com.example.espin.ui.viewmodel.MainViewModel
+import com.example.esfine.navigation.EsFineNavigationSuite
+import com.example.esfine.ui.state.AppTab
+import com.example.esfine.ui.viewmodel.MainViewModel
 
 /**
  * Main screen composable - root of the app.
@@ -37,7 +37,7 @@ fun MainScreen(
         visible = mainUiState.hasOnboarded,
         modifier = modifier.fillMaxSize()
     ) {
-        EspinNavigationSuite(viewModel = viewModel) { activeTab ->
+        EsFineNavigationSuite(viewModel = viewModel) { activeTab ->
             when (activeTab) {
                 AppTab.Mixer -> CoreMixerScreen(
                     viewModel = viewModel,

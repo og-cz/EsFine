@@ -1,4 +1,4 @@
-package com.example.espin.ui.screens
+package com.example.esfine.ui.screens
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -18,9 +18,9 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.espin.ui.components.MoodScanner
-import com.example.espin.ui.theme.*
-import com.example.espin.ui.viewmodel.MainViewModel
+import com.example.esfine.ui.components.MoodScanner
+import com.example.esfine.ui.theme.*
+import com.example.esfine.ui.viewmodel.MainViewModel
 
 @Composable
 fun CoreMixerScreen(
@@ -57,7 +57,7 @@ fun CoreMixerScreen(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = if (mixerState.activePreset != null) "PROTOCOL: ${mixerState.activePreset}" else "INITIATE_DIAGNOSTIC_SCAN",
-                            style = EspinTypography.labelSmall,
+                            style = EsFineTypography.labelSmall,
                             color = TextCharcoal
                         )
                     }
@@ -124,7 +124,7 @@ fun CoreMixerScreen(
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    Text("SYSTEM_RESONANCE_ACTIVE", style = EspinTypography.labelSmall, color = AccentSage)
+                    Text("SYSTEM_RESONANCE_ACTIVE", style = EsFineTypography.labelSmall, color = AccentSage)
                 }
             }
 
@@ -189,8 +189,8 @@ fun ChannelFader(label: String, level: Int, icon: androidx.compose.ui.graphics.v
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(label, style = EspinTypography.labelSmall, color = TextCharcoal)
-                Text("$level%", style = EspinTypography.labelSmall, color = TextMuted)
+                Text(label, style = EsFineTypography.labelSmall, color = TextCharcoal)
+                Text("$level%", style = EsFineTypography.labelSmall, color = TextMuted)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Box(modifier = Modifier.fillMaxWidth().height(4.dp).clip(CircleShape).background(Color(0xFFF0F0F0))) {

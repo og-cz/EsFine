@@ -1,4 +1,4 @@
-package com.example.espin.ui.components
+package com.example.esfine.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.animation.AnimatedVisibility
@@ -38,16 +38,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.example.espin.domain.model.Mood
-import com.example.espin.domain.model.MoodPreset
-import com.example.espin.ui.theme.AccentSage
-import com.example.espin.ui.theme.BackgroundOffWhite
-import com.example.espin.ui.theme.BackgroundSecondary
-import com.example.espin.ui.theme.BorderMuted
-import com.example.espin.ui.theme.EspinTypography
-import com.example.espin.ui.theme.TextCharcoal
-import com.example.espin.ui.theme.TextMuted
-import com.example.espin.ui.theme.TextSecondary
+import com.example.esfine.domain.model.Mood
+import com.example.esfine.domain.model.MoodPreset
+import com.example.esfine.ui.theme.AccentSage
+import com.example.esfine.ui.theme.BackgroundOffWhite
+import com.example.esfine.ui.theme.BackgroundSecondary
+import com.example.esfine.ui.theme.BorderMuted
+import com.example.esfine.ui.theme.EsFineTypography
+import com.example.esfine.ui.theme.TextCharcoal
+import com.example.esfine.ui.theme.TextMuted
+import com.example.esfine.ui.theme.TextSecondary
 
 /**
  * MoodScanner overlay component matching MoodScanner.tsx
@@ -119,7 +119,7 @@ fun MoodScanner(
                 ) {
                     Text(
                         text = "DIAGNOSTIC_INPUT",
-                        style = EspinTypography.titleMedium, // text-xl
+                        style = EsFineTypography.titleMedium, // text-xl
                         color = TextCharcoal,
                         modifier = Modifier.weight(1f)
                     )
@@ -137,7 +137,7 @@ fun MoodScanner(
                 // Description text
                 Text(
                     text = "SELECT CURRENT COGNITIVE STATE FOR CALIBRATION:",
-                    style = EspinTypography.bodySmall, // text-sm
+                    style = EsFineTypography.bodySmall, // text-sm
                     color = TextSecondary,
                     modifier = Modifier.padding(bottom = 24.dp) // mb-6
                 )
@@ -189,13 +189,13 @@ fun MoodScanner(
                             Spacer(modifier = Modifier.width(8.dp)) // gap-2
                             Text(
                                 text = "AI_CALIBRATION_READY",
-                                style = EspinTypography.labelSmall, // text-[10px]
+                                style = EsFineTypography.labelSmall, // text-[10px]
                                 color = TextCharcoal
                             )
                         }
                         Text(
                             text = "Selecting a state will automatically configure the audio engine frequencies for optimal neural entrainment.",
-                            style = EspinTypography.labelSmall, // text-[10px]
+                            style = EsFineTypography.labelSmall, // text-[10px]
                             color = TextSecondary
                         )
                     }

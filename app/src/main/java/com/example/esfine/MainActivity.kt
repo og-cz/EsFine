@@ -1,4 +1,4 @@
-package com.example.espin
+package com.example.esfine
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,19 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.espin.ui.screens.MainScreen
-import com.example.espin.ui.theme.EspinTheme
+import com.example.esfine.ui.screens.MainScreen
+import com.example.esfine.ui.theme.EsFineTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            EspinTheme {
+            EsFineTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = com.example.espin.ui.theme.BackgroundOffWhite
+                    color = com.example.esfine.ui.theme.BackgroundOffWhite
                 ) {
-                    val viewModel: com.example.espin.ui.viewmodel.MainViewModel = viewModel()
+                    val viewModel: com.example.esfine.ui.viewmodel.MainViewModel = viewModel()
                     MainScreen(viewModel = viewModel)
                 }
             }

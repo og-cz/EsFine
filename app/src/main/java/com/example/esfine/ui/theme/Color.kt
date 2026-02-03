@@ -1,4 +1,4 @@
-package com.example.espin.ui.theme
+package com.example.esfine.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

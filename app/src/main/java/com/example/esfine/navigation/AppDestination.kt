@@ -1,11 +1,11 @@
-package com.example.espin.navigation
+package com.example.esfine.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Album // Changed from Disc
 import androidx.compose.material.icons.filled.Radio
 import androidx.compose.material.icons.filled.Tune // Changed from Sliders
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.espin.ui.state.AppTab
+import com.example.esfine.ui.state.AppTab
 /**
  * Navigation destinations matching App.tsx tabs
  */

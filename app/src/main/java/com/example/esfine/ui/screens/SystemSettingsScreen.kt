@@ -1,4 +1,4 @@
-package com.example.espin.ui.screens
+package com.example.esfine.ui.screens
 
 import androidx.compose.runtime.remember
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -32,14 +32,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.espin.ui.theme.AccentSage
-import com.example.espin.ui.theme.BackgroundSecondary
-import com.example.espin.ui.theme.BorderMuted
-import com.example.espin.ui.theme.CardWhite
-import com.example.espin.ui.theme.EspinTypography
-import com.example.espin.ui.theme.TextCharcoal
-import com.example.espin.ui.theme.TextMuted
-import com.example.espin.ui.theme.TextSecondary
+import com.example.esfine.ui.theme.AccentSage
+import com.example.esfine.ui.theme.BackgroundSecondary
+import com.example.esfine.ui.theme.BorderMuted
+import com.example.esfine.ui.theme.CardWhite
+import com.example.esfine.ui.theme.EsFineTypography
+import com.example.esfine.ui.theme.TextCharcoal
+import com.example.esfine.ui.theme.TextMuted
+import com.example.esfine.ui.theme.TextSecondary
 
 data class SettingRowData(
     val icon: ImageVector,
@@ -63,7 +63,7 @@ fun SystemSettingsScreen(
         // Header
         Text(
             text = "SYSTEM\nCONFIGURATION",
-            style = EspinTypography.titleLarge, // text-2xl
+            style = EsFineTypography.titleLarge, // text-2xl
             color = TextCharcoal,
             fontWeight = FontWeight.Light,
             modifier = Modifier.padding(bottom = 32.dp) // mb-8
@@ -122,8 +122,8 @@ fun SystemSettingsScreen(
                 .padding(16.dp) // p-4
         ) {
             Text(
-                text = "SYS_ID: ESPIN-CORE-882\nBUILD: 2024.10.02_ALPHA\nSTATUS: CONNECTED",
-                style = EspinTypography.labelSmall, // text-[10px]
+                text = "SYS_ID: ESFINE-CORE-882\nBUILD: 2024.10.02_ALPHA\nSTATUS: CONNECTED",
+                style = EsFineTypography.labelSmall, // text-[10px]
                 color = TextSecondary
             )
         }
@@ -167,14 +167,14 @@ private fun SettingRow(setting: SettingRowData) {
         Spacer(modifier = Modifier.width(16.dp)) // ml-4
         Text(
             text = setting.label,
-            style = EspinTypography.bodyMedium, // text-sm
+            style = EsFineTypography.bodyMedium, // text-sm
             color = TextCharcoal,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
         Text(
             text = setting.value,
-            style = EspinTypography.bodySmall, // text-xs
+            style = EsFineTypography.bodySmall, // text-xs
             color = TextMuted
         )
     }

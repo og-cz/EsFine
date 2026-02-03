@@ -1,6 +1,6 @@
-package com.example.espin.ui.state
+package com.example.esfine.ui.state
 
-import com.example.espin.domain.model.MoodPreset
+import com.example.esfine.domain.model.MoodPreset
 
 /**
  * State for the CoreMixer screen.

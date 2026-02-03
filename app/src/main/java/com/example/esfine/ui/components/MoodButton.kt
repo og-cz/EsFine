@@ -1,4 +1,4 @@
-package com.example.espin.ui.components
+package com.example.esfine.ui.components
 
 import androidx.compose.runtime.remember
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,13 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.espin.ui.theme.AccentSage
-import com.example.espin.ui.theme.BorderMuted
-import com.example.espin.ui.theme.CardWhite
-import com.example.espin.ui.theme.EspinTypography
-import com.example.espin.ui.theme.HoverLightGreen
-import com.example.espin.ui.theme.TextCharcoal
-import com.example.espin.ui.theme.TextMuted
+import com.example.esfine.ui.theme.AccentSage
+import com.example.esfine.ui.theme.BorderMuted
+import com.example.esfine.ui.theme.CardWhite
+import com.example.esfine.ui.theme.EsFineTypography
+import com.example.esfine.ui.theme.HoverLightGreen
+import com.example.esfine.ui.theme.TextCharcoal
+import com.example.esfine.ui.theme.TextMuted
 
 @Composable
 fun MoodButton(
@@ -83,14 +83,14 @@ fun MoodButton(
 
             Text(
                 text = label,
-                style = EspinTypography.bodyMedium,
+                style = EsFineTypography.bodyMedium,
                 color = TextCharcoal,
                 modifier = Modifier.padding(top = 12.dp)
             )
 
             Text(
                 text = description,
-                style = EspinTypography.labelSmall,
+                style = EsFineTypography.labelSmall,
                 color = TextMuted,
                 modifier = Modifier.padding(top = 4.dp),
                 textAlign = TextAlign.Start
