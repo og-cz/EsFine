@@ -1,4 +1,4 @@
-package com.example.espin
+package com.example.esfine
 
 import org.junit.Test
 
