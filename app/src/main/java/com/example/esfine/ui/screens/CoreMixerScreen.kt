@@ -1,26 +1,35 @@
 package com.example.esfine.ui.screens
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.esfine.R
+import com.example.esfine.audio.AudioEngine
 import com.example.esfine.ui.components.MoodScanner
 import com.example.esfine.ui.theme.*
 import com.example.esfine.ui.viewmodel.MainViewModel
+import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @Composable
 fun CoreMixerScreen(
@@ -28,107 +37,158 @@ fun CoreMixerScreen(
     modifier: Modifier = Modifier
 ) {
     val mixerState by viewModel.mixerUiState.collectAsState()
+    val context = LocalContext.current
 
-    // Main container
+    // ================= AUDIO =================
+    val texturePool = remember {
+        intArrayOf(
+            R.raw.night_rain_1,
+            R.raw.night_rain_2,
+            R.raw.vinyl_1,
+            R.raw.vinyl_2,
+            R.raw.brown_1
+        )
+    }
+
+    val melodyPool = remember {
+        intArrayOf(
+            R.raw.theta_1,
+            R.raw.theta_2
+        )
+    }
+
+    val audioEngine = remember { AudioEngine(context.applicationContext) }
+
+    DisposableEffect(Unit) {
+        onDispose { audioEngine.release() }
+    }
+
+    LaunchedEffect(mixerState.isPlaying) {
+        if (mixerState.isPlaying) audioEngine.start(texturePool, melodyPool)
+        else audioEngine.stop()
+    }
+
+    LaunchedEffect(mixerState.textureLevel) {
+        audioEngine.setTextureVolume(mixerState.textureLevel / 100f)
+    }
+
+    LaunchedEffect(mixerState.melodyLevel) {
+        audioEngine.setMelodyVolume(mixerState.melodyLevel / 100f)
+    }
+
+    LaunchedEffect(mixerState.randomizeNonce) {
+        if (mixerState.isPlaying) {
+            audioEngine.randomize(texturePool, melodyPool)
+        }
+    }
+
+    // ================= IDLE MOOD PROMPT =================
+    var showMoodPrompt by remember { mutableStateOf(false) }
+    var interactionNonce by remember { mutableIntStateOf(0) }
+    val onUserInteraction = { interactionNonce++ }
+
+    LaunchedEffect(interactionNonce, mixerState.showMoodScanner) {
+        if (mixerState.showMoodScanner) {
+            showMoodPrompt = false
+            return@LaunchedEffect
+        }
+
+        showMoodPrompt = false
+        delay(Random.nextLong(3 * 60_000L, 5 * 60_000L))
+        showMoodPrompt = true
+    }
+
+    // ================= UI =================
     Box(
         modifier = modifier
             .fillMaxSize()
             .padding(24.dp)
     ) {
-        // Main UI Content Layer
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // Visualizer Area
+
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            // ===== VISUALIZER =====
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
                     .padding(bottom = 16.dp)
             ) {
-                // Preset Trigger Button
+
                 Button(
-                    onClick = { viewModel.showMoodScanner(true) },
+                    onClick = {
+                        onUserInteraction()
+                        viewModel.showMoodScanner(true)
+                    },
                     modifier = Modifier.align(Alignment.TopCenter),
                     colors = ButtonDefaults.buttonColors(containerColor = BackgroundSecondary)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.ScatterPlot, null, modifier = Modifier.size(14.dp))
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            text = if (mixerState.activePreset != null) "PROTOCOL: ${mixerState.activePreset}" else "INITIATE_DIAGNOSTIC_SCAN",
-                            style = EsFineTypography.labelSmall,
-                            color = TextCharcoal
-                        )
-                    }
+                    Icon(Icons.Default.ScatterPlot, null, modifier = Modifier.size(14.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = mixerState.activePreset ?: "INITIATE_DIAGNOSTIC_SCAN",
+                        style = EsFineTypography.labelSmall,
+                        color = TextCharcoal
+                    )
                 }
 
-                // Entity Visualizer
+                val infiniteTransition = rememberInfiniteTransition(label = "visualizer")
+
+                val rotation by infiniteTransition.animateFloat(
+                    0f, if (mixerState.isPlaying) 360f else 0f,
+                    infiniteRepeatable(tween(10000, easing = LinearEasing))
+                )
+
+                val middleRotation by infiniteTransition.animateFloat(
+                    0f, if (mixerState.isPlaying) -180f else 0f,
+                    infiniteRepeatable(tween(8000, easing = FastOutSlowInEasing))
+                )
+
+                val coreScale by infiniteTransition.animateFloat(
+                    1f, if (mixerState.isPlaying) 0.9f else 1f,
+                    infiniteRepeatable(tween(4000, easing = FastOutSlowInEasing))
+                )
+
                 Box(
                     modifier = Modifier
                         .size(256.dp)
                         .align(Alignment.Center)
                 ) {
-                    val infiniteTransition = rememberInfiniteTransition(label = "visualizer")
-
-                    val rotation by infiniteTransition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = if (mixerState.isPlaying) 360f else 0f,
-                        animationSpec = infiniteRepeatable(
-                            animation = tween(10000, easing = LinearEasing)
-                        ),
-                        label = "outer_ring"
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .rotate(rotation)
+                            .border(1.dp, TextCharcoal.copy(alpha = 0.2f), CircleShape)
                     )
-
-                    val middleRotation by infiniteTransition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = if (mixerState.isPlaying) -180f else 0f,
-                        animationSpec = infiniteRepeatable(
-                            animation = tween(8000, easing = FastOutSlowInEasing)
-                        ),
-                        label = "middle_shape"
+                    Box(
+                        modifier = Modifier
+                            .size(192.dp)
+                            .align(Alignment.Center)
+                            .rotate(middleRotation)
+                            .border(1.dp, AccentSage, RoundedCornerShape(50))
                     )
-
-                    val coreScale by infiniteTransition.animateFloat(
-                        initialValue = 1f,
-                        targetValue = if (mixerState.isPlaying) 0.9f else 1f,
-                        animationSpec = infiniteRepeatable(
-                            animation = tween(4000, easing = FastOutSlowInEasing)
-                        ),
-                        label = "core_scale"
-                    )
-
-                    val scale by animateFloatAsState(targetValue = if (mixerState.isPlaying) 1.05f else 1f, label = "scale")
-                    val coreRotation by animateFloatAsState(targetValue = if (mixerState.isPlaying) 45f else 0f, label = "core_rotation")
-
-                    Box(modifier = Modifier.fillMaxSize().scale(scale).rotate(rotation).border(1.dp, TextCharcoal.copy(0.2f), CircleShape))
-                    Box(modifier = Modifier.size(192.dp).align(Alignment.Center).rotate(middleRotation).border(1.dp, AccentSage.copy(0.6f), RoundedCornerShape(50)))
                     Box(
                         modifier = Modifier
                             .size(96.dp)
                             .align(Alignment.Center)
-                            .rotate(coreRotation)
                             .scale(coreScale)
                             .clip(RoundedCornerShape(24.dp))
-                            .background(if (mixerState.isPlaying) TextCharcoal else BackgroundSecondary),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Box(modifier = Modifier.size(32.dp).clip(CircleShape).background(if (mixerState.isPlaying) AccentSage else TextMuted))
-                    }
+                            .background(TextCharcoal)
+                    )
                 }
 
-                // Status text (Inside the Visualizer Box)
                 androidx.compose.animation.AnimatedVisibility(
+
                     visible = mixerState.isPlaying,
-                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp),
+                    modifier = Modifier.align(Alignment.BottomCenter),
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    Text("SYSTEM_RESONANCE_ACTIVE", style = EsFineTypography.labelSmall, color = AccentSage)
+                    Text("SYSTEM_RESONANCE_ACTIVE", color = AccentSage)
                 }
             }
 
-            // Faders / Controls Column
+            // ===== CONTROLS =====
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -137,64 +197,116 @@ fun CoreMixerScreen(
                     .border(1.dp, BorderMuted, RoundedCornerShape(24.dp))
                     .padding(24.dp)
             ) {
-                ChannelFader("TEXTURE", mixerState.textureLevel, Icons.Default.WaterDrop, AccentSage)
-                Spacer(modifier = Modifier.height(24.dp))
-                ChannelFader("MELODY", mixerState.melodyLevel, Icons.Default.VolumeUp, TextCharcoal)
 
-                Spacer(modifier = Modifier.height(32.dp))
+                ChannelFaderSlider(
+                    "TEXTURE",
+                    mixerState.textureLevel,
+                    Icons.Default.WaterDrop,
+                    AccentSage
+                ) {
+                    onUserInteraction()
+                    viewModel.setTextureLevel(it)
+                }
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    Button(
-                        onClick = { viewModel.togglePlayback() },
-                        modifier = Modifier.weight(1f).height(56.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = TextCharcoal),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Icon(if (mixerState.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow, null)
-                        Spacer(Modifier.width(12.dp))
-                        Text(if (mixerState.isPlaying) "PAUSE" else "INITIATE")
-                    }
+                Spacer(Modifier.height(24.dp))
 
-                    IconButton(onClick = { viewModel.resetMixer() }, modifier = Modifier.size(56.dp)) {
-                        Icon(Icons.Default.Refresh, "Reset", tint = TextCharcoal)
-                    }
+                ChannelFaderSlider(
+                    "MELODY",
+                    mixerState.melodyLevel,
+                    Icons.AutoMirrored.Filled.VolumeUp,
+                    TextCharcoal
+                ) {
+                    onUserInteraction()
+                    viewModel.setMelodyLevel(it)
+                }
+
+                Spacer(Modifier.height(32.dp))
+
+                Button(
+                    onClick = {
+                        onUserInteraction()
+                        viewModel.togglePlayback()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = TextCharcoal)
+                ) {
+                    Icon(
+                        if (mixerState.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                        null
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Text(if (mixerState.isPlaying) "PAUSE" else "INITIATE")
                 }
             }
         }
 
-        // --- MoodScanner Overlay ---
-        // Explicitly using the full package name to avoid Scope ambiguity
-        androidx.compose.animation.AnimatedVisibility(
+        // ===== MOOD SCANNER =====
+        AnimatedVisibility(
             visible = mixerState.showMoodScanner,
-            modifier = Modifier.fillMaxSize(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            // Force a background here so it covers the mixer completely
-            Box(modifier = Modifier.fillMaxSize().background(BackgroundOffWhite)) {
-                MoodScanner(
-                    onClose = { viewModel.showMoodScanner(false) },
-                    onSelectPreset = { preset -> viewModel.applyPreset(preset) },
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+            MoodScanner(
+                onClose = {
+                    onUserInteraction()
+                    viewModel.showMoodScanner(false)
+                },
+                onSelectPreset = {
+                    onUserInteraction()
+                    viewModel.applyPreset(it)
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // ===== IDLE POPUP =====
+        if (showMoodPrompt) {
+            AlertDialog(
+                onDismissRequest = {
+                    showMoodPrompt = false
+                    onUserInteraction()
+                },
+                shape = RoundedCornerShape(0.dp),
+                modifier = Modifier.border(1.dp, Color.Gray),
+                title = { Text("Mood Calibration") },
+                text = { Text("You’ve been idle. Select a mood to calibrate the mix.") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        showMoodPrompt = false
+                        onUserInteraction()
+                        viewModel.showMoodScanner(true)
+                    }) { Text("SELECT MOOD") }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showMoodPrompt = false
+                        onUserInteraction()
+                    }) { Text("LATER") }
+                }
+            )
         }
     }
 }
 
 @Composable
-fun ChannelFader(label: String, level: Int, icon: androidx.compose.ui.graphics.vector.ImageVector, tint: Color) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, null, modifier = Modifier.size(18.dp), tint = tint)
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(label, style = EsFineTypography.labelSmall, color = TextCharcoal)
-                Text("$level%", style = EsFineTypography.labelSmall, color = TextMuted)
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(modifier = Modifier.fillMaxWidth().height(4.dp).clip(CircleShape).background(Color(0xFFF0F0F0))) {
-                Box(modifier = Modifier.fillMaxWidth(level / 100f).fillMaxSize().background(tint))
+private fun ChannelFaderSlider(
+    label: String,
+    level: Int,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    tint: Color,
+    onChange: (Int) -> Unit
+) {
+    Column {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(icon, null, tint = tint)
+            Spacer(Modifier.width(16.dp))
+            Column {
+                Text(label)
+                Slider(
+                    value = level.toFloat(),
+                    onValueChange = { onChange(it.toInt()) },
+                    valueRange = 0f..100f
+                )
             }
         }
     }

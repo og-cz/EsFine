@@ -1,7 +1,6 @@
 package com.example.esfine.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.esfine.domain.model.MoodPreset
 import com.example.esfine.ui.state.AppTab
 import com.example.esfine.ui.state.MainUiState
@@ -13,45 +12,36 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel() {
-    
-    // Main UI State
+
     private val _mainUiState = MutableStateFlow(MainUiState())
     val mainUiState: StateFlow<MainUiState> = _mainUiState.asStateFlow()
-    
-    // Mixer UI State
+
     private val _mixerUiState = MutableStateFlow(MixerUiState())
     val mixerUiState: StateFlow<MixerUiState> = _mixerUiState.asStateFlow()
-    
-    // Onboarding UI State
+
     private val _onboardingUiState = MutableStateFlow(OnboardingUiState())
     val onboardingUiState: StateFlow<OnboardingUiState> = _onboardingUiState.asStateFlow()
-    
-    // Main App Functions
+
     fun setActiveTab(tab: AppTab) {
         _mainUiState.update { it.copy(activeTab = tab) }
     }
-    
+
     fun setHasOnboarded(completed: Boolean) {
         _mainUiState.update { it.copy(hasOnboarded = completed) }
     }
-    
-    // Mixer Functions
+
+    // ===== Mixer =====
+
     fun togglePlayback() {
         _mixerUiState.update { it.copy(isPlaying = !it.isPlaying) }
     }
-    
+
     fun showMoodScanner(show: Boolean) {
         _mixerUiState.update { it.copy(showMoodScanner = show) }
     }
-    
+
     fun applyPreset(preset: MoodPreset) {
-        // Matches applyPreset logic from CoreMixer.tsx:
-        // setTextureLevel(preset.texture)
-        // setMelodyLevel(preset.melody)
-        // setActivePreset(preset.name)
-        // setIsPlaying(true)
-        // setShowMoodScanner(false)
-        _mixerUiState.update { 
+        _mixerUiState.update {
             it.copy(
                 textureLevel = preset.texture,
                 melodyLevel = preset.melody,
@@ -61,21 +51,21 @@ class MainViewModel : ViewModel() {
             )
         }
     }
-    
+
     fun setTextureLevel(level: Int) {
         _mixerUiState.update { it.copy(textureLevel = level.coerceIn(0, 100)) }
     }
-    
+
     fun setMelodyLevel(level: Int) {
         _mixerUiState.update { it.copy(melodyLevel = level.coerceIn(0, 100)) }
     }
-    
+
+    // NEW: Refresh button should randomize tracks WITHOUT resetting volumes/preset
+    fun randomizeTracks() {
+        _mixerUiState.update { it.copy(randomizeNonce = it.randomizeNonce + 1) }
+    }
+
     fun resetMixer() {
-        // Matches reset logic from CoreMixer.tsx:
-        // setTextureLevel(60)
-        // setMelodyLevel(40)
-        // setActivePreset(null)
-        // setIsPlaying(false)
         _mixerUiState.update {
             it.copy(
                 textureLevel = 60,
@@ -85,8 +75,9 @@ class MainViewModel : ViewModel() {
             )
         }
     }
-    
-    // Onboarding Functions
+
+    // ===== Onboarding =====
+
     fun onboardingNext() {
         _onboardingUiState.update { state ->
             if (state.currentStep < OnboardingUiState.TOTAL_STEPS - 1) {
@@ -96,7 +87,7 @@ class MainViewModel : ViewModel() {
             }
         }
     }
-    
+
     fun onboardingComplete() {
         _onboardingUiState.update { it.copy(isComplete = true) }
         setHasOnboarded(true)
