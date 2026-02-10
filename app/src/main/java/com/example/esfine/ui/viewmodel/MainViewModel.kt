@@ -6,6 +6,7 @@ import com.example.esfine.ui.state.AppTab
 import com.example.esfine.ui.state.MainUiState
 import com.example.esfine.ui.state.MixerUiState
 import com.example.esfine.ui.state.OnboardingUiState
+import com.example.esfine.ui.state.ThemeMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,15 +14,19 @@ import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel() {
 
+    // Main UI State
     private val _mainUiState = MutableStateFlow(MainUiState())
     val mainUiState: StateFlow<MainUiState> = _mainUiState.asStateFlow()
 
+    // Mixer UI State
     private val _mixerUiState = MutableStateFlow(MixerUiState())
     val mixerUiState: StateFlow<MixerUiState> = _mixerUiState.asStateFlow()
 
+    // Onboarding UI State
     private val _onboardingUiState = MutableStateFlow(OnboardingUiState())
     val onboardingUiState: StateFlow<OnboardingUiState> = _onboardingUiState.asStateFlow()
 
+    // Main App Functions
     fun setActiveTab(tab: AppTab) {
         _mainUiState.update { it.copy(activeTab = tab) }
     }
@@ -30,8 +35,18 @@ class MainViewModel : ViewModel() {
         _mainUiState.update { it.copy(hasOnboarded = completed) }
     }
 
-    // ===== Mixer =====
+    // Theme
+    fun setThemeMode(mode: ThemeMode) {
+        _mainUiState.update { it.copy(themeMode = mode) }
+    }
 
+    fun toggleTheme() {
+        _mainUiState.update {
+            it.copy(themeMode = if (it.themeMode == ThemeMode.DARK) ThemeMode.LIGHT else ThemeMode.DARK)
+        }
+    }
+
+    // Mixer Functions
     fun togglePlayback() {
         _mixerUiState.update { it.copy(isPlaying = !it.isPlaying) }
     }
@@ -60,11 +75,6 @@ class MainViewModel : ViewModel() {
         _mixerUiState.update { it.copy(melodyLevel = level.coerceIn(0, 100)) }
     }
 
-    // NEW: Refresh button should randomize tracks WITHOUT resetting volumes/preset
-    fun randomizeTracks() {
-        _mixerUiState.update { it.copy(randomizeNonce = it.randomizeNonce + 1) }
-    }
-
     fun resetMixer() {
         _mixerUiState.update {
             it.copy(
@@ -76,8 +86,11 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    // ===== Onboarding =====
+    fun randomizeTracks() {
+        _mixerUiState.update { it.copy(randomizeNonce = it.randomizeNonce + 1) }
+    }
 
+    // Onboarding Functions
     fun onboardingNext() {
         _onboardingUiState.update { state ->
             if (state.currentStep < OnboardingUiState.TOTAL_STEPS - 1) {

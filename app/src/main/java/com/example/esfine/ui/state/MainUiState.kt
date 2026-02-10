@@ -1,16 +1,15 @@
 package com.example.esfine.ui.state
 
-/**
- * Main application state.
- * Maps to useState hooks in App.tsx
- */
 data class MainUiState(
-    val activeTab: AppTab = AppTab.Mixer,              // useState('mixer')
-    val hasOnboarded: Boolean = false                  // useState(false)
+    val activeTab: AppTab = AppTab.Mixer,
+    val hasOnboarded: Boolean = false,
+    val themeMode: ThemeMode = ThemeMode.LIGHT
 )
 
+enum class ThemeMode { LIGHT, DARK }
+
 enum class AppTab {
-    Mixer,      // 'mixer'
-    Library,    // 'library'
-    System      // 'system'
+    Mixer,
+    Library,
+    System
 }

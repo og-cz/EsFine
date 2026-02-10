@@ -2,24 +2,31 @@ package com.example.esfine.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Primary Palette - Extracted from TSX files
-val BackgroundOffWhite = Color(0xFFF5F5F5)
-val TextCharcoal = Color(0xFF333333)
+// =======================
+// LIGHT PALETTE (day)
+// =======================
+val LightBackground = Color(0xFFF5F5F5)
+val LightSurface = Color(0xFFFFFFFF)
+val LightSurfaceVariant = Color(0xFFEDEDED)
+
+val LightOnBackground = Color(0xFF1F1F1F)
+val LightOnSurface = Color(0xFF1F1F1F)
+val LightOnSurfaceVariant = Color(0xFF6B6B6B)
+
 val AccentSage = Color(0xFF87A96B)
+val LightOutline = Color(0xFFCCCCCC)
 
-// Secondary Palette
-val BackgroundSecondary = Color(0xFFE0E0E0)
-val CardWhite = Color(0xFFFFFFFF)
-val BorderSecondary = Color(0xFFD4D4D4)
-val BorderLight = Color(0xFFE5E5E5)
-val BorderMuted = Color(0xFFCCCCCC)
+// =======================
+// DARK PALETTE (night / sleep-friendly)
+// - Optional "less strain" included:
+//   onSurface is NOT pure white.
+// =======================
+val DarkBackground = Color(0xFF0F1113)          // almost black
+val DarkSurface = Color(0xFF161A1D)             // dark card
+val DarkSurfaceVariant = Color(0xFF1E2327)      // button/slider area
 
-// Text Palette
-val TextSecondary = Color(0xFF666666)
-val TextMuted = Color(0xFF999999)
-val TextDark = Color(0xFF000000)
+val DarkOnBackground = Color(0xFFDADADA)        // ✅ softer than white (optional)
+val DarkOnSurface = Color(0xFFDADADA)           // ✅ softer than white (optional)
+val DarkOnSurfaceVariant = Color(0xFFA8A8A8)    // ✅ softer gray (optional)
 
-// Semantic Colors
-val HoverLightGreen = Color(0xFFF9FFF5)
-val HoverSecondary = Color(0xFFF9F9F9)
-val HoverTertiary = Color(0xFFEEEEEE)
+val DarkOutline = Color(0xFF3A4046)             // gray outline/border

@@ -10,19 +10,13 @@ import com.example.esfine.navigation.EsFineNavigationSuite
 import com.example.esfine.ui.state.AppTab
 import com.example.esfine.ui.viewmodel.MainViewModel
 
-/**
- * Main screen composable - root of the app.
- * Matches the structure from App.tsx with conditional rendering.
- */
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
     val mainUiState by viewModel.mainUiState.collectAsState()
-    
-    // Conditional rendering: show onboarding if not completed, else show main content
-    // Matches: {!hasOnboarded ? <TechnicalOnboarding /> : renderScreen()}
+
     AnimatedVisibility(
         visible = !mainUiState.hasOnboarded,
         modifier = modifier.fillMaxSize()
@@ -32,23 +26,16 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize()
         )
     }
-    
+
     AnimatedVisibility(
         visible = mainUiState.hasOnboarded,
         modifier = modifier.fillMaxSize()
     ) {
         EsFineNavigationSuite(viewModel = viewModel) { activeTab ->
             when (activeTab) {
-                AppTab.Mixer -> CoreMixerScreen(
-                    viewModel = viewModel,
-                    modifier = Modifier.fillMaxSize()
-                )
-                AppTab.Library -> SoundLibraryScreen(
-                    modifier = Modifier.fillMaxSize()
-                )
-                AppTab.System -> SystemSettingsScreen(
-                    modifier = Modifier.fillMaxSize()
-                )
+                AppTab.Mixer -> CoreMixerScreen(viewModel = viewModel, modifier = Modifier.fillMaxSize())
+                AppTab.Library -> SoundLibraryScreen(modifier = Modifier.fillMaxSize())
+                AppTab.System -> SystemSettingsScreen(viewModel = viewModel, modifier = Modifier.fillMaxSize())
             }
         }
     }

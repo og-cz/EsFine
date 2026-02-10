@@ -2,65 +2,50 @@ package com.example.esfine.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Using system monospace font as fallback - can be replaced with custom font file later
-val EsFineMono = FontFamily.Monospace
+private val EsFineFont = FontFamily.Default
 
-// Typography mapping from React classes
-// text-[10px] -> 10.sp
-val LabelSmall = TextStyle(
-    fontSize = 10.sp,
-    fontFamily = EsFineMono,
-    fontWeight = FontWeight.Bold,
-    letterSpacing = 0.5.sp
+private val LabelSmall = TextStyle(
+    fontSize = 11.sp,
+    fontFamily = EsFineFont,
+    fontWeight = FontWeight.Medium,
+    letterSpacing = 0.sp
 )
 
-// text-xs -> 12.sp
-val BodySmall = TextStyle(
-    fontSize = 12.sp,
-    fontFamily = EsFineMono,
-    letterSpacing = 1.sp
+private val BodySmall = TextStyle(
+    fontSize = 13.sp,
+    fontFamily = EsFineFont,
+    fontWeight = FontWeight.Normal,
+    letterSpacing = 0.sp
 )
 
-// text-sm -> 14.sp
-val BodyMedium = TextStyle(
-    fontSize = 14.sp,
-    fontFamily = EsFineMono,
-    fontWeight = FontWeight.Bold
+private val BodyMedium = TextStyle(
+    fontSize = 15.sp,
+    fontFamily = EsFineFont,
+    fontWeight = FontWeight.Medium
 )
 
-// text-xl -> 20.sp
-val TitleMedium = TextStyle(
+private val TitleMedium = TextStyle(
     fontSize = 20.sp,
-    fontFamily = EsFineMono,
-    fontWeight = FontWeight.Bold
+    fontFamily = EsFineFont,
+    fontWeight = FontWeight.SemiBold
 )
 
-// text-2xl -> 24.sp
-val TitleLarge = TextStyle(
-    fontSize = 24.sp,
-    fontFamily = EsFineMono,
-    fontWeight = FontWeight.Light
+private val TitleLarge = TextStyle(
+    fontSize = 26.sp,
+    fontFamily = EsFineFont,
+    fontWeight = FontWeight.SemiBold
 )
 
 val EsFineTypography = Typography(
-    displayLarge = TitleLarge,
-    displayMedium = TitleMedium,
-    displaySmall = TitleMedium,
-    headlineLarge = TitleMedium,
-    headlineMedium = BodyMedium,
-    headlineSmall = BodyMedium,
-    titleLarge = TitleMedium,
-    titleMedium = BodyMedium,
-    titleSmall = BodySmall,
-    bodyLarge = BodyMedium,
-    bodyMedium = BodySmall,
-    bodySmall = LabelSmall,
-    labelLarge = BodySmall,
+    titleLarge = TitleLarge,
+    titleMedium = TitleMedium,
+    bodyMedium = BodyMedium,
+    bodySmall = BodySmall,
+    labelSmall = LabelSmall,
     labelMedium = LabelSmall,
-    labelSmall = LabelSmall
+    labelLarge = BodySmall
 )

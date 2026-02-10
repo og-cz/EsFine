@@ -1,181 +1,128 @@
 package com.example.esfine.ui.screens
 
-import androidx.compose.runtime.remember
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.esfine.ui.theme.AccentSage
-import com.example.esfine.ui.theme.BackgroundSecondary
-import com.example.esfine.ui.theme.BorderMuted
-import com.example.esfine.ui.theme.CardWhite
-import com.example.esfine.ui.theme.EsFineTypography
-import com.example.esfine.ui.theme.TextCharcoal
-import com.example.esfine.ui.theme.TextMuted
-import com.example.esfine.ui.theme.TextSecondary
+import com.example.esfine.ui.state.ThemeMode
+import com.example.esfine.ui.viewmodel.MainViewModel
 
-data class SettingRowData(
-    val icon: ImageVector,
-    val label: String,
-    val value: String,
-    val isLast: Boolean = false
-)
-
-/**
- * SystemSettings screen matching SystemSettings.tsx
- */
 @Composable
 fun SystemSettingsScreen(
+    viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
+    val mainUiState by viewModel.mainUiState.collectAsState()
+    val isDark = mainUiState.themeMode == ThemeMode.DARK
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 32.dp) // px-6 pt-8
+            .padding(horizontal = 24.dp, vertical = 32.dp)
     ) {
-        // Header
         Text(
-            text = "SYSTEM\nCONFIGURATION",
-            style = EsFineTypography.titleLarge, // text-2xl
-            color = TextCharcoal,
-            fontWeight = FontWeight.Light,
-            modifier = Modifier.padding(bottom = 32.dp) // mb-8
+            text = "Settings",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(bottom = 24.dp)
         )
-        
-        // Settings List
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(16.dp)) // rounded-2xl
-                .background(CardWhite) // bg-white
-                .border(1.dp, BorderMuted, RoundedCornerShape(16.dp))
+                .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp))
+                .padding(vertical = 8.dp)
         ) {
-            val settings = listOf(
-                SettingRowData(
-                    icon = Icons.Default.Settings,
-                    label = "Audio Calibration",
-                    value = "Standard"
-                ),
-                SettingRowData(
-                    icon = Icons.Default.DarkMode, // Moon
-                    label = "Interface Mode",
-                    value = "Day"
-                ),
-                SettingRowData(
-                    icon = Icons.Default.Storage, // Database
-                    label = "Offline Storage",
-                    value = "120MB"
-                ),
-                SettingRowData(
-                    icon = Icons.Default.Shield,
-                    label = "Privacy Protocol",
-                    value = "Local",
-                    isLast = true
-                )
+
+            SettingRow(
+                icon = Icons.Default.Settings,
+                title = "Audio setup",
+                value = "Standard"
             )
-            
-            settings.forEach { setting ->
-                SettingRow(setting = setting)
+
+            Divider(color = MaterialTheme.colorScheme.surfaceVariant)
+
+            // ✅ Night mode toggle
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.DarkMode, contentDescription = null)
+                Spacer(Modifier.width(16.dp))
+                Text(
+                    text = "Night mode",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.weight(1f)
+                )
+                Switch(
+                    checked = isDark,
+                    onCheckedChange = { viewModel.toggleTheme() }
+                )
             }
-        }
-        
-        Spacer(modifier = Modifier.height(32.dp)) // mt-8
-        
-        // System Info Box
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp)) // rounded-xl
-                .background(BackgroundSecondary.copy(alpha = 0.5f)) // bg-[#E0E0E0]/50
-                .border(
-                    width = 1.dp,
-                    color = BorderMuted,
-                    shape = RoundedCornerShape(12.dp)
-                )
-                .padding(16.dp) // p-4
-        ) {
-            Text(
-                text = "SYS_ID: ESFINE-CORE-882\nBUILD: 2024.10.02_ALPHA\nSTATUS: CONNECTED",
-                style = EsFineTypography.labelSmall, // text-[10px]
-                color = TextSecondary
+
+            Divider(color = MaterialTheme.colorScheme.surfaceVariant)
+
+            SettingRow(
+                icon = Icons.Default.Storage,
+                title = "Offline storage",
+                value = "Local"
+            )
+
+            Divider(color = MaterialTheme.colorScheme.surfaceVariant)
+
+            SettingRow(
+                icon = Icons.Default.Shield,
+                title = "Privacy",
+                value = "Offline only"
             )
         }
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = "Tip: Night mode is better for low light and long sessions.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
 @Composable
-private fun SettingRow(setting: SettingRowData) {
-    // 1. Create the interaction source
-    val interactionSource = remember { MutableInteractionSource() }
-
+private fun SettingRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    value: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(
-                // 2. Use the new ripple here
-                indication = rememberRipple(),
-                interactionSource = interactionSource,
-                onClick = {}
-            )
-            .padding(16.dp)
-            .then(
-                if (!setting.isLast) {
-                    Modifier.border(
-                        width = 1.dp,
-                        color = Color(0xFFF0F0F0),
-                        shape = RoundedCornerShape(0.dp)
-                    )
-                } else {
-                    Modifier
-                }
-            ),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = setting.icon,
-            contentDescription = null,
-            modifier = Modifier.size(18.dp),
-            tint = AccentSage
-        )
-        Spacer(modifier = Modifier.width(16.dp)) // ml-4
+        Icon(icon, contentDescription = null)
+        Spacer(Modifier.width(16.dp))
         Text(
-            text = setting.label,
-            style = EsFineTypography.bodyMedium, // text-sm
-            color = TextCharcoal,
-            fontWeight = FontWeight.Bold,
+            text = title,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = setting.value,
-            style = EsFineTypography.bodySmall, // text-xs
-            color = TextMuted
+            text = value,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

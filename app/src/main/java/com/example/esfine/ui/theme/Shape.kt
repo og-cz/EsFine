@@ -4,10 +4,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
 
-// Shape mapping from React Tailwind classes
-// rounded-xl -> 12.dp
-// rounded-2xl -> 16.dp
-// rounded-[2.5rem] -> 24.dp (approximately)
 
 val EsFineShapes = Shapes(
     extraSmall = RoundedCornerShape(8.dp),      // rounded-lg equivalent

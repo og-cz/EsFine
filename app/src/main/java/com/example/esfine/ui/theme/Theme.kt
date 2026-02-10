@@ -13,19 +13,30 @@ import androidx.core.view.WindowCompat
 
 private val EsFineLightColorScheme = lightColorScheme(
     primary = AccentSage,
-    onPrimary = CardWhite,
-    secondary = BackgroundSecondary,
-    onSecondary = TextCharcoal,
-    tertiary = AccentSage,
-    onTertiary = CardWhite,
-    background = BackgroundOffWhite,
-    onBackground = TextCharcoal,
-    surface = CardWhite,
-    onSurface = TextCharcoal,
-    surfaceVariant = BackgroundSecondary,
-    onSurfaceVariant = TextSecondary,
-    error = TextDark,
-    onError = CardWhite
+    background = LightBackground,
+    surface = LightSurface,
+    surfaceVariant = LightSurfaceVariant,
+
+    onPrimary = LightSurface,
+    onBackground = LightOnBackground,
+    onSurface = LightOnSurface,
+    onSurfaceVariant = LightOnSurfaceVariant,
+
+    outline = LightOutline
+)
+
+private val EsFineDarkColorScheme = darkColorScheme(
+    primary = AccentSage,
+    background = DarkBackground,
+    surface = DarkSurface,
+    surfaceVariant = DarkSurfaceVariant,
+
+    onPrimary = DarkBackground,
+    onBackground = DarkOnBackground,
+    onSurface = DarkOnSurface,
+    onSurfaceVariant = DarkOnSurfaceVariant,
+
+    outline = DarkOutline
 )
 
 @Composable
@@ -33,14 +44,18 @@ fun EsFineTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = EsFineLightColorScheme
-    
+    val colorScheme = if (darkTheme) EsFineDarkColorScheme else EsFineLightColorScheme
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
+
+            // Match status bar to background
             window.statusBarColor = colorScheme.background.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
+
+            // Light icons for dark theme, dark icons for light theme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
